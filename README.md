@@ -48,7 +48,7 @@ Ejecutar el archivo app:
 
 ## API KEY
 
-Para ejecutar el proyecto con el requerimiento de API KEY se debe descomentar la llamada a la función @api_required en el archivo app.py (linea 46) y pasar al request una de las siguientes keys:
+Para ejecutar el proyecto con el requerimiento de API KEY se debe descomentar la llamada a la función @api_key_required en el archivo app.py (linea 46) y pasar al request una de las siguientes keys:
 
 `API_KEY` = c0a4b28f-c48d-4596-8639-f3f34cff1a8b
 
