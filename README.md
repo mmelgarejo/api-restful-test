@@ -54,3 +54,6 @@ Para ejecutar el proyecto con el requerimiento de API KEY se debe descomentar la
 
 `ANOTHER_API_KEY` = b883dff0-daf2-4d48-89f8-88d344c928d8
 
+## Swagger 
+
+- http://localhost:5000/swagger
