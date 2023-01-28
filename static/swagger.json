@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "API RESTFUL TEST",
+      "version": "1.0.0",
+      "title": "Api Restful Test"
+    },
+    "servers": [
+      {
+        "url": "/"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Petición de Noticias a partir de un texto dado",
+        "description": "Ejemplo API para realizar una peticion y obtener las noticias"
+      }
+    ],
+    "paths": {
+      "/consulta": {
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Texto a buscar entre las noticias",
+            "type": "string"
+          },
+          {
+            "name": "f",
+            "in": "query",
+            "required": false,
+            "description": "Retornar foto en base64",
+            "type": "boolean"
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "required": false,
+            "description": "Api Key",
+            "type": "apiKey"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Realizar Petición de Noticias"
+          ],
+          "summary": "Obtener noticias a partir de un texto dado",
+          "parameters": [
+            {
+                "name": "q",
+                "in": "query",
+                "required": true,
+                "description": "Texto a buscar",
+                "type": "string"
+              },
+              {
+                "name": "f",
+                "in": "query",
+                "required": false,
+                "description": "Retornar foto en base64",
+                "type": "string"
+              },
+              {
+                "name": "api-key",
+                "in": "header",
+                "required": false,
+                "description": "Api Key",
+                "type": "apiKey"
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Parámetros inválidos"
+            },
+            "404": {
+              "description": "No se encuentran noticias para el texto"
+            },
+            "500": {
+              "description": "Error interno"
+            },
+            "403": {
+              "description": "No autorizado"
+            }
+          }
+        }   
+      }
+    }
+  }

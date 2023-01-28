@@ -1,0 +1,4 @@
+/env
+src/database/__pycache__/
+src/helpers/__pycache__/
+src/Models/__pycache__/

@@ -3,11 +3,23 @@ from bs4 import BeautifulSoup
 import requests
 import hashlib
 import hmac
+from flask_swagger_ui import get_swaggerui_blueprint
 from src.Models.Article import Article
 from src.helpers.helper import *
 from src.database.database import get_connection
 
 app = Flask(__name__)
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "API RESTFUL TEST"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 def api_required(func):
     def wrapper(*args, **kwargs):
@@ -26,12 +38,12 @@ def api_required(func):
             return func(*args, **kwargs)
         except Exception as e:
             error = get_error('g100')
-            error['error'] = error['error'] + str(e)
+            error['error']+= str(e)
             return error, 500
     return wrapper
 
 @app.route('/consulta')
-#@api_required  # Comentar si no se quiere validar la API KEY
+#@api_required  # Descomentar si se quiere validar la API KEY
 def get_data():
     try:
         api_key = request.headers.get('api-key')
@@ -43,7 +55,7 @@ def get_data():
         articles = get_articles(search, api_key)
         if len(articles) == 0:
             error = get_error('g267')
-            error['error'] = error['error'] + search
+            error['error'] += search
             return error, 404
         list_articles = []
         for article in articles:
@@ -52,7 +64,7 @@ def get_data():
         return jsonify(list_articles), 200
     except Exception as e:
         error = get_error('g100')
-        error['error'] = error['error'] + str(e)
+        error['error'] += str(e)
         return error, 500
     
 def get_articles(search, api_key=None):
@@ -67,9 +79,8 @@ def get_articles(search, api_key=None):
             'Accept-Language': 'en-US,en;q=0.8',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
             'Accept': 'application/xml,application/json,text/plain,text/html',
-            'Referer': 'http://www.wikipedia.org/',
             'Connection': 'keep-alive',
-            'X-Signing': signing
+            'X-API-KEY': signing
         }
         data = requests.get(url, headers=headers, timeout=10)
         soup = BeautifulSoup(data.text, 'html.parser')
@@ -98,4 +109,4 @@ def get_article_data(article, return_base_photo):
         raise e
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
