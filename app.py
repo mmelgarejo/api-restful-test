@@ -21,7 +21,7 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
-def api_required(func):
+def api_key_required(func):
     def wrapper(*args, **kwargs):
         try:
             api_key = request.headers.get('api-key')
@@ -45,7 +45,7 @@ def api_required(func):
     return wrapper
 
 @app.route('/consulta')
-@api_required  # Descomentar si se quiere validar la API KEY
+#@api_key_required  # Descomentar si se quiere validar la API KEY
 def get_data():
     try:
         api_key = request.headers.get('api-key')
