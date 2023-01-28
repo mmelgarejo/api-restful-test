@@ -32,6 +32,8 @@ def api_required(func):
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM api_key WHERE key = ?", (api_key,))
             data = cursor.fetchone()
+            cursor.close()
+            conn.close()
             if data is None:
                 error = get_error('g103')
                 return error, 403
@@ -43,7 +45,7 @@ def api_required(func):
     return wrapper
 
 @app.route('/consulta')
-#@api_required  # Descomentar si se quiere validar la API KEY
+@api_required  # Descomentar si se quiere validar la API KEY
 def get_data():
     try:
         api_key = request.headers.get('api-key')
